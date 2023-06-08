@@ -153,3 +153,63 @@ jobs:
 
     name: Push to AWS S3 Bucket
     run: aws s3 sync . s3://aws_bucket_name 
+
+
+
+
+
+
+
+
+
+
+
+
+version: "3.8"
+services:
+  nginx:
+    restart: always
+    container_name: nginx
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/mern_nginx:latest
+    ports:
+      - '80:80'
+    depends_on:
+      - client
+      - api
+    networks:
+      - socialapp-netwovrk
+  api:
+    container_name: api
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/mern_backend:latest
+    environment:
+      - MONGO_URL=${{ secrets.DOCKERHUB_USERNAME }}
+      - JWT_SECRET=sample
+      - PORT=5000
+    networks:
+      - socialapp-network
+    restart: always
+  client:
+    container_name: client
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/mern_front:latest
+    networks:
+      - socialapp-network
+    restart: always
+
+networks:
+  socialapp-network:
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
